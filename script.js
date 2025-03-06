@@ -46,7 +46,7 @@ function updateCountDown() {
 function startTimer() {
     task.style.color = "#2e6118";
     if (!active) {
-        interval = setInterval(updateCountDown, 1);
+        interval = setInterval(updateCountDown, 1000);
         startButton.querySelector("p").textContent = "Pause";
         active = !active;
     } else {
