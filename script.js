@@ -32,19 +32,21 @@ function updateCountDown() {
             }
             task.textContent = "break";
             working = !working;
+            sendNotification("Time for a break!");
         } else {
             time = 25 * 60;
             task.textContent = "work";
             working = !working;
+            sendNotification("Time to work!");
         }
     }
 
-}
+};
 
 function startTimer() {
     task.style.color = "#2e6118";
     if (!active) {
-        interval = setInterval(updateCountDown, 1000);
+        interval = setInterval(updateCountDown, 1);
         startButton.querySelector("p").textContent = "Pause";
         active = !active;
     } else {
@@ -52,7 +54,7 @@ function startTimer() {
         startButton.querySelector("p").textContent = "Resume";
         active = !active;
     }
-}
+};
 
 function resetTimer() {
     time = 25 * 60;
@@ -61,4 +63,27 @@ function resetTimer() {
     task.style.color = "#ecffd8";
     startButton.querySelector("p").textContent = "Start";
     updateCountDown();
-}
+};
+
+window.onload = function() {
+    if (Notification.permission !== 'granted') {
+        Notification.requestPermission().then(function(permission) {
+            if (permission === 'granted') {
+                console.log("Notification permission granted.");
+            } else {
+                console.log("Notification permission denied.");
+            }
+        });
+    }
+};
+
+function sendNotification(message) {
+    if (Notification.permission === 'granted') {
+        const notification = new Notification("Pomodoro Panda", {
+            body: message,
+            icon: "images/logo.png"
+        });
+    } else {
+        console.log("Notification permission not granted.");
+    }
+};
